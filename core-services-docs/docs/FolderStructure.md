@@ -1,7 +1,7 @@
 # Folder Structure
 
 ```bash
-/core-services-docs/
+/core-services-architecture/
 ├── README.md
 ├── docs/
 │   ├── HLD.md

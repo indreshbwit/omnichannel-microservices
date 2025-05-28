@@ -1,1 +1,23 @@
-<mxfile host="app.diagrams.net"><diagram name="ERD" id="1"></diagram></mxfile>
+
+<mxfile host="app.diagrams.net">
+  <diagram name="ERD" id="1">
+    <mxGraphModel dx="1070" dy="647" grid="1" gridSize="10" guides="1">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="2" value="Tenant" style="shape=swimlane;" vertex="1" parent="1">
+          <mxGeometry x="20" y="20" width="160" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="3" value="User" style="shape=swimlane;" vertex="1" parent="1">
+          <mxGeometry x="220" y="20" width="160" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="4" value="Role" style="shape=swimlane;" vertex="1" parent="1">
+          <mxGeometry x="420" y="20" width="160" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="5" value="Permission" style="shape=swimlane;" vertex="1" parent="1">
+          <mxGeometry x="620" y="20" width="160" height="120" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

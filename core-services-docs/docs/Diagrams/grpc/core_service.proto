@@ -1,0 +1,42 @@
+
+syntax = "proto3";
+
+package core;
+
+option csharp_namespace = "CoreService.Grpc";
+
+service UserService {
+  rpc GetUser(GetUserRequest) returns (UserResponse);
+  rpc CreateUser(CreateUserRequest) returns (UserResponse);
+}
+
+service AuthService {
+  rpc Authenticate(AuthRequest) returns (AuthResponse);
+}
+
+message GetUserRequest {
+  string user_id = 1;
+}
+
+message CreateUserRequest {
+  string name = 1;
+  string email = 2;
+  string tenant_id = 3;
+}
+
+message UserResponse {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  string tenant_id = 4;
+}
+
+message AuthRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message AuthResponse {
+  string token = 1;
+  string refresh_token = 2;
+}
