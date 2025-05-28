@@ -87,7 +87,6 @@ core-services-docs/
 | Component  | ![Component](diagrams/previews/component-diagram.png) | [ComponentDiagram.drawio](docs/Diagrams/ComponentDiagram.drawio) |
 | Class      | ![Class](diagrams/previews/class-diagram.png) | [ClassDiagram.drawio](docs/Diagrams/ClassDiagram.drawio) |
 
-Use [Draw.io](https://app.diagrams.net/) or compatible software to edit `.drawio` files.
 
 ---
 
