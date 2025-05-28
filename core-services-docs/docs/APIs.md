@@ -1,23 +1,32 @@
 # API Endpoints
 
-## User Management
+This document details the Core Service gRPC APIs and the REST/OpenAPI gateway endpoints.
 
-- `POST /users`
-- `GET /users/{id}`
-- `PUT /users/{id}`
-- `DELETE /users/{id}`
+---
 
-## Tenant Management
+## UserService (gRPC)
 
-- `POST /tenants`
-- `GET /tenants/{id}`
+| RPC Method        | Request Message          | Response Message        | Description                           |
+|-------------------|--------------------------|------------------------|-------------------------------------|
+| `GetUser`         | `GetUserRequest`          | `UserResponse`          | Retrieves user information by ID    |
+| `CreateUser`      | `CreateUserRequest`       | `UserResponse`          | Creates a new user                  |
+| `UpdateUser`      | `UpdateUserRequest`       | `UserResponse`          | Updates an existing user            |
+| `DeleteUser`      | `DeleteUserRequest`       | `DeleteResponse`        | Deletes a user by ID                |
 
-## OAuth
+---
 
-- `POST /oauth/initiate`
-- `GET /oauth/callback`
+### Example: GetUser
 
-## gRPC Services
+```proto
+message GetUserRequest {
+  string user_id = 1;
+}
 
-- `UserService.GetUser`
-- `AuthService.ValidateToken`
+message UserResponse {
+  string id = 1;
+  string tenant_id = 2;
+  string email = 3;
+  string name = 4;
+  string role_id = 5;
+}
+

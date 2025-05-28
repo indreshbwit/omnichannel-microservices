@@ -1,24 +1,65 @@
-# High-Level Design (HLD)
+# High-Level Design (HLD) — Core Service Architecture
 
-## Overview
+## 1. Introduction
 
-This document provides a high-level architecture of the Core Services system, including major components, data flow, and service responsibilities.
+The Core Service manages foundational business entities such as tenants, users, roles, permissions, OAuth credentials, and authentication mechanisms. It serves as a critical microservice in the overall platform, supporting multi-tenancy, security, and extensibility.
 
-## Architecture Diagram
+## 2. Architecture Overview
 
-![Component Diagram](Diagrams/ComponentDiagram.png)
+![Component Diagram](../../diagrams/previews/component-diagram.png)
 
-## Components
+The Core Service architecture includes:
 
-- Core Service (Tenant/User/RBAC)
-- Integration Service (OAuth)
-- Task Service
-- gRPC Gateway
-- Kafka Event Bus
+- **Tenant Management**: Handles onboarding and lifecycle of tenants.
+- **User Management**: Internal and external user lifecycle, profile, and credentials.
+- **Role & Permission Management**: RBAC system for access control.
+- **OAuth Credential Management**: Integrates with external platforms for delegated access.
+- **Authentication & Authorization**: JWT-based authentication, OAuth token validation.
+- **Communication**: 
+  - gRPC for synchronous API interactions.
+  - Kafka for event streaming and async notifications.
+- **Feature Flags**: Configurable flags at tenant and service level to enable/disable features dynamically.
 
-## Data Flow
+## 3. Deployment Context
 
-- User registration/authentication via REST
-- OAuth binding with third-party platforms
-- Kafka publishes events for cross-service sync
-- gRPC for internal service calls
+- Runs in Kubernetes environment with service registration/discovery.
+- Uses PostgreSQL for relational data storage.
+- Secrets and tokens encrypted and managed securely.
+- Kafka cluster for async event streaming.
+
+## 4. Major Components
+
+- Tenant
+- User
+- Role
+- Permission
+- PlatformCredential
+- OAuthBinding
+- AccessControl
+- Authentication
+
+## 5. Data Flow
+
+- Tenant onboarding triggers database schema provisioning.
+- Users register or are created internally, assigned roles.
+- Users authenticate via password or OAuth.
+- Role-based permissions enforced on API calls.
+- Changes propagated asynchronously through Kafka topics.
+
+## 6. Technology Stack
+
+| Layer             | Technology                  |
+|-------------------|-----------------------------|
+| API Layer         | gRPC + OpenAPI Gateway       |
+| Data Persistence  | PostgreSQL                   |
+| Messaging         | Kafka                       |
+| Authentication    | JWT + OAuth 2.0              |
+| Configuration     | Feature Flags (DB + cache)   |
+| Containerization  | Docker + Kubernetes          |
+
+---
+
+*Refer to `/docs/Diagrams/ComponentDiagram.drawio` for editable source.*
+
+*End of HLD*
+
