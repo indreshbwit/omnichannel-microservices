@@ -20,7 +20,9 @@ graph LR
     UserService --> EventBus[Kafka]
     PlatformService --> EventBus
     EventBus --> SyncService[Sync Microservices]
-Description
+```     
+### Description
+
 Client sends API requests routed through the API Gateway.
 Authentication Service validates requests.
 User and Platform Services process requests, updating their respective databases.
