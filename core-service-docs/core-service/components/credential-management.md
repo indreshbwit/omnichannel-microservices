@@ -86,7 +86,7 @@ flowchart TD
         CS[CredentialService]
         ENC[Encryption Module / KMS]
         DB[(Credential DB)]
-        CCache[Redis Cache (non-sensitive)]
+        CCache[Redis Cache: non-sensitive]
     end
 
     subgraph Platform Integration Services
