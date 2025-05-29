@@ -54,6 +54,7 @@ Illustrates the relationships between user-related entities.
 erDiagram
     USER ||--o{ USER_PLATFORM_BINDING : binds
     USER_PLATFORM_BINDING }o--|| CREDENTIAL : uses
+```    
 Example: User Record
 JSON
 
