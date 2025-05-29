@@ -186,7 +186,6 @@ Request is allowed if target user is in the same tenant.
 Data Flow Diagram
 Illustrates the flow for an access control check.
 
-```mermaid
 sequenceDiagram
     participant Client
     participant API
