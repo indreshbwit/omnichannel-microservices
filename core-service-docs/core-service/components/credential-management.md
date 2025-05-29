@@ -67,11 +67,13 @@ flowchart TD
 
     classDef external fill:#bbf,stroke:#333,stroke-width:1px;
     class Mail,Chat,WhatsApp,Client external;
-``` 
+```
+
 
 ### Communication Flow Between Services
+```mermaid
 
-```flowchart TD
+flowchart TD
     subgraph Client Layer
         U[User / Admin / Service]
     end
