@@ -159,7 +159,6 @@ class UserResponse:
 ## Data Flow
 
 ### User Creation Flow
-![User Creation Flow](diagrams/User-Creation-Flow.png)
 ```mermaid
 sequenceDiagram
     participant C as Client
