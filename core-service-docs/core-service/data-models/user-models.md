@@ -61,7 +61,7 @@ JSON
 {
   "id": "a6b14f2d-6e30-4a3f-babc-8fe44c178910",
   "tenant_id": "b3e98c14-0f4e-4d8e-bdc7-2dd5b3401111",
-  "email": "alice@acme.com",
+  "email": "user1@outlook.com",
   "full_name": "Alice Smith",
   "is_active": true,
   "is_internal": false,
@@ -76,7 +76,7 @@ JSON
   "id": "40e56dfc-d3b7-44d4-9ac5-23a3a8b0d514",
   "user_id": "a6b14f2d-6e30-4a3f-babc-8fe44c178910",
   "platform": "microsoft",
-  "platform_user_id": "john.doe@outlook.com",
+  "platform_user_id": "user2@outlook.com",
   "scopes": ["read:mail", "send:mail"],
   "credential_id": "f97e0dd4-6a2b-41f9-91a0-b81a84187aa1"
 }
