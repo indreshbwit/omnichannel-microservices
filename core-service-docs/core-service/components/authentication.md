@@ -43,7 +43,7 @@ flowchart TD
     subgraph Auth Service
         Auth[AuthService]
         Redis["Redis: Rate Limits & Tokens"]
-        JWT[JWT Engine [Encode/Decode]]
+        JWT["JWT Engine: Encode/Decode"]
     end
 
     subgraph Database
