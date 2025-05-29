@@ -50,15 +50,15 @@ flowchart TD
         UserDB[(User & Tenant DB)]
     end
 
-    User -->|Login Request (username/password)| API
-    API -->|Forward to AuthService| Auth
-    Auth -->|Check rate limit & lockout| Redis
-    Auth -->|Lookup User in DB| UserDB
-    Auth -->|Validate credentials| UserDB
-    Auth -->|Generate JWT + Refresh Token| JWT
-    JWT -->|Store refresh token| Redis
-    Auth -->|Send token response| API
-    API -->|Return Access + Refresh Token| User
+    User -->|"Login Request (username/password)"| API
+    API -->|"Forward to AuthService"| Auth
+    Auth -->|"Check rate limit & lockout"| Redis
+    Auth -->|"Lookup user in DB"| UserDB
+    Auth -->|"Validate credentials"| UserDB
+    Auth -->|"Generate JWT + Refresh Token"| JWT
+    JWT -->|"Store refresh token"| Redis
+    Auth -->|"Send token response"| API
+    API -->|"Return Access + Refresh Token"| User
 ```
 ---
 ### Communication Flow Diagram
