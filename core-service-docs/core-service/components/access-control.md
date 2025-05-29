@@ -20,13 +20,13 @@ The Access Control component governs **who can access what** within the system b
 
 ## Key Concepts
 
-| Concept    | Description                                              |
-| :--------- | :------------------------------------------------------- |
+| Concept      | Description                                                    |
+| :----------- | :------------------------------------------------------------- |
 | **Role** | A logical grouping of permissions (e.g., admin, viewer, editor) |
-| **Permission** | An atomic access rule (e.g., user:create, email:read)    |
+| **Permission** | An atomic access rule (e.g., user:create, email:read)          |
 | **Scope** | A constraint on how a permission applies (e.g., tenant-specific, self-only) |
-| **Rule** | A runtime evaluation to check if access is allowed         |
-| **Resource** | Any protected data entity (e.g., user, email, document)  |
+| **Rule** | A runtime evaluation to check if access is allowed             |
+| **Resource** | Any protected data entity (e.g., user, email, document)        |
 
 ---
 
@@ -51,14 +51,51 @@ The Access Control component governs **who can access what** within the system b
 | **DB Access** | Row-level filters by permission            |
 
 ---
+### Data Flow Diagram (DFD) for Access Control
 
+```mermaid
+flowchart TD
+    Client["Client"]
+    API["API Gateway"]
+    AuthService["Authentication Service"]
+    AccessControl["Access Control Service"]
+    UserService["User Service"]
+    Resource["Protected Resource"]
+
+    Client -->|Request with JWT| API
+    API -->|Validate Access| AccessControl
+    AccessControl -->|Verify Token| AuthService
+    AccessControl -->|Fetch Roles & Permissions| UserService
+    AccessControl -->|Access Decision| API
+    API -->|Allow or Deny| Client
+    API -->|Request Resource| Resource
+``` 
+---
+### Communication Flow Diagram for Access Control Components
+
+```mermaid
+flowchart LR
+    Client["Client"]
+    API["API Gateway"]
+    AuthService["Auth Service"]
+    AccessControl["Access Control"]
+    UserService["User Service"]
+
+    Client -->|Send Request + JWT| API
+    API -->|Check Permission| AccessControl
+    AccessControl -->|Validate Token| AuthService
+    AccessControl -->|Query Roles/Permissions| UserService
+    AccessControl -->|Response (Allow/Deny)| API
+    API -->|Response to Client| Client
+
+``` 
 ## Decorator Example (Python)
 
 ```python
 @require_permission("user:create")
 def create_user(request):
     ...
-Permission Check Function
+Permission Check Function (Python)
 Python
 
 def check_permission(user_id: UUID, permission: str, resource_id: Optional[UUID] = None) -> bool:
@@ -67,7 +104,7 @@ def check_permission(user_id: UUID, permission: str, resource_id: Optional[UUID]
     if permission in user_permissions:
         return apply_scope_rules(permission, user_id, resource_id)
     return False
-REST Middleware
+REST Middleware Example (Python)
 Python
 
 @app.middleware("http")
@@ -77,7 +114,7 @@ async def enforce_access_control(request, call_next):
     if not has_permission(user, permission_required):
         raise HTTPException(status_code=403, detail="Access Denied")
     return await call_next(request)
-gRPC Interceptor
+gRPC Interceptor Example (Python)
 Python
 
 class AccessControlInterceptor(grpc.ServerInterceptor):
@@ -87,7 +124,7 @@ class AccessControlInterceptor(grpc.ServerInterceptor):
         if not validate_permission(token, handler_call_details.method):
             raise grpc.RpcError(grpc.StatusCode.PERMISSION_DENIED)
         return continuation(handler_call_details)
-Role-Based Access Evaluation
+Role-Based Access Example (YAML)
 YAML
 
 role: admin
@@ -108,7 +145,7 @@ Resource Owned	Applies only to resources owned by user
 Delegated	Temporary, delegated access (support mode)
 
 Export to Sheets
-Event Topics
+Event Topics (Python)
 Python
 
 class AccessControlEvents:
@@ -130,7 +167,7 @@ Resource (if applicable)
 Timestamp
 IP address
 Result (granted/denied)
-Usage Examples
+Usage Example
 Scenario: Delete another user's account
 JWT contains:
 
@@ -150,8 +187,7 @@ Request is allowed if target user is in the same tenant.
 Data Flow Diagram
 Illustrates the flow for an access control check.
 
-Code snippet
-
+```mermaid
 sequenceDiagram
     participant Client
     participant API
@@ -161,8 +197,8 @@ sequenceDiagram
 
     Client->>API: Request (with JWT)
     API->>AccessControl: Validate Permission
-    AccessControl->>AuthService: Decode + Verify Token
-    AccessControl->>UserService: Get user roles + permissions
+    AccessControl->>AuthService: Decode & Verify Token
+    AccessControl->>UserService: Get User Roles & Permissions
     AccessControl-->>API: Access Granted
     API-->>Client: Success Response
 Best Practices
