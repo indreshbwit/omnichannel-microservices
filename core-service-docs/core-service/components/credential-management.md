@@ -24,7 +24,7 @@ The Credential Management component handles the **secure storage, retrieval, rot
 flowchart TD
 
     %% === Clients & Entrypoints ===
-    Client[Client (User/Admin/Service)]
+    Client[Client: User/Admin/Service]
     APIGW[API Gateway]
     
     %% === Credential Management Core ===
