@@ -31,7 +31,7 @@ flowchart TD
     CS[CredentialService]
     ENC[Encryption Module / KMS]
     DB[(Credential DB)]
-    Cache[Redis (Non-sensitive Metadata Cache)]
+    Cache[Redis: Non-sensitive Metadata Cache]
 
     %% === Event System ===
     EB[Kafka / EventBus]
