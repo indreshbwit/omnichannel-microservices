@@ -33,11 +33,11 @@ Permissions define **granular access rights** that can be assigned to roles to e
 ## Relationships
 
 Illustrates the many-to-many relationship between roles and permissions.
-
+```mermaid
 erDiagram
     ROLE ||--o{ ROLE_PERMISSIONS : has
     PERMISSION ||--o{ ROLE_PERMISSIONS : granted_to
-    
+```    
 Many-to-many relationship: Each role can have multiple permissions; each permission can belong to multiple roles.
 Permissions are scoped by tenant.
 
