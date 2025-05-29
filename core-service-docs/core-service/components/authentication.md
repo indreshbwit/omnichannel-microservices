@@ -42,7 +42,7 @@ flowchart TD
 
     subgraph Auth Service
         Auth[AuthService]
-        Redis[Redis (Rate Limits, Refresh Tokens)]
+        Redis["Redis: Rate Limits & Tokens"]
         JWT[JWT Engine (Encode/Decode)]
     end
 
