@@ -17,6 +17,101 @@ The Credential Management component handles the **secure storage, retrieval, rot
 
 ---
 
+---
+### Data Flow Diagram (DFD) for Credential Management
+
+```mermaid
+flowchart TD
+
+    %% === Clients & Entrypoints ===
+    Client[Client (User/Admin/Service)]
+    APIGW[API Gateway]
+    
+    %% === Credential Management Core ===
+    CS[CredentialService]
+    ENC[Encryption Module / KMS]
+    DB[(Credential DB)]
+    Cache[Redis (Non-sensitive Metadata Cache)]
+
+    %% === Event System ===
+    EB[Kafka / EventBus]
+    Audit[Audit Logger]
+
+    %% === Integration Services ===
+    Mail[Mail Service]
+    Chat[Chat Service]
+    WhatsApp[WhatsApp Service]
+
+    %% === Flow Arrows ===
+    Client -->|POST /credentials| APIGW
+    APIGW -->|StoreCredentialRequest| CS
+    CS --> ENC
+    ENC -->|Encrypted Blob| CS
+    CS --> DB
+    CS --> Cache
+    CS -->|Emit credential.stored| EB
+    EB --> Audit
+
+    %% === Fetch Credential Flow ===
+    Mail -->|gRPC GetCredential| CS
+    Chat -->|gRPC GetCredential| CS
+    WhatsApp -->|gRPC GetCredential| CS
+
+    CS -->|Read Encrypted Credential| DB
+    CS --> ENC
+    ENC -->|Decrypted Credential| CS
+
+    %% Style
+    classDef service fill:#f9f,stroke:#333,stroke-width:1px;
+    class CS,ENC,DB,Cache service;
+
+    classDef external fill:#bbf,stroke:#333,stroke-width:1px;
+    class Mail,Chat,WhatsApp,Client external;
+``` 
+
+### Communication Flow Between Services
+
+```flowchart TD
+    subgraph Client Layer
+        U[User / Admin / Service]
+    end
+
+    subgraph API Layer
+        API[API Gateway]
+    end
+
+    subgraph Credential Management
+        CS[CredentialService]
+        ENC[Encryption Module / KMS]
+        DB[(Credential DB)]
+        CCache[Redis Cache (non-sensitive)]
+    end
+
+    subgraph Platform Integration Services
+        Mail[Mail Service]
+        Chat[Chat Service]
+        WhatsApp[WhatsApp Service]
+    end
+
+    subgraph Event & Messaging
+        EB[Kafka / EventBus]
+        Audit[Audit Logger]
+    end
+
+    U -->|POST /credentials| API
+    API -->|REST/gRPC: StoreCredentialRequest| CS
+    CS --> ENC
+    ENC --> CS
+    CS --> DB
+    CS --> CCache
+    CS --> EB
+    EB --> Audit
+    Mail -->|gRPC: GetCredential| CS
+    Chat -->|gRPC: GetCredential| CS
+    WhatsApp -->|gRPC: GetCredential| CS
+    CS -->|Read from| DB
+    CS -->|Decryption| ENC
+``` 
 ## Class Interfaces
 
 ### ICredential Interface
@@ -185,7 +280,6 @@ Credentials cannot be fetched unless service is active.
 Data Flow Diagram
 Illustrates the flow for storing a new credential.
 
-Code snippet
 
 sequenceDiagram
     participant C as Client
