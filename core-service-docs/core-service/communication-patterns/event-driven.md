@@ -25,6 +25,7 @@ sequenceDiagram
     CoreService->>Kafka: Publish event (UserCreated)
     Kafka-->>OtherService: Deliver event asynchronously
     OtherService->>OtherService: Process event (e.g., sync user data)
+```     
 Benefits
 Loose coupling between services
 Better scalability and fault tolerance

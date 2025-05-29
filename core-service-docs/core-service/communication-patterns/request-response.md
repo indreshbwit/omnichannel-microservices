@@ -23,6 +23,8 @@ sequenceDiagram
     CoreServiceAPI->>Database: Validate & store user data
     Database-->>CoreServiceAPI: Success/Failure
     CoreServiceAPI-->>Client: Response with status and data
+```     
+    
 Benefits
 Simple and intuitive
 Immediate feedback to clients
