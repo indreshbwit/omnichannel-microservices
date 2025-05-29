@@ -85,7 +85,7 @@ flowchart LR
     API -->|Check Permission| AccessControl
     AccessControl -->|Validate Token| AuthService
     AccessControl -->|Query Roles/Permissions| UserService
-    AccessControl -->|Response (Allow/Deny)| API
+    AccessControl -->|Allow or Deny Response| API
     API -->|Response to Client| Client
 ``` 
 ## Decorator Example (Python)
