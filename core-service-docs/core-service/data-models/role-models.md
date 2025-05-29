@@ -40,6 +40,7 @@ Illustrates the many-to-many relationship between users and roles.
 erDiagram
     USER ||--o{ USER_ROLES : has
     ROLE ||--o{ USER_ROLES : assigned_to
+```    
 Many-to-many: A user can have multiple roles, and a role can be assigned to multiple users.
 Each role is scoped to a tenant (tenant_id).
 System Roles
