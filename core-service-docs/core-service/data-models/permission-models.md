@@ -34,12 +34,13 @@ Permissions define **granular access rights** that can be assigned to roles to e
 
 Illustrates the many-to-many relationship between roles and permissions.
 
-```mermaid
 erDiagram
     ROLE ||--o{ ROLE_PERMISSIONS : has
     PERMISSION ||--o{ ROLE_PERMISSIONS : granted_to
+    
 Many-to-many relationship: Each role can have multiple permissions; each permission can belong to multiple roles.
 Permissions are scoped by tenant.
+
 Example: Permission Record
 JSON
 
@@ -49,6 +50,7 @@ JSON
   "name": "read:emails",
   "description": "Allows read access to email resources"
 }
+
 Example: Role Permission Assignment
 JSON
 
@@ -58,6 +60,7 @@ JSON
   "permission_id": "fe2a3e67-5d3a-4d4e-b7db-98a6bb6c7b19",
   "granted_at": "2025-05-29T14:50:00Z"
 }
+
 Best Practices
 Permissions should be named consistently using colon-separated scopes (e.g., service:action).
 Use tenant-scoped permissions to ensure isolation.
