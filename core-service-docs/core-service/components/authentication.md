@@ -29,6 +29,88 @@ The Authentication component provides **secure, multi-tenant login and identity 
 | **Service Credentials** | Used by internal services or daemons       |
 
 ---
+### Data Flow Diagram
+```mermaid
+flowchart TD
+    subgraph Client Side
+        User[User / Client]
+    end
+
+    subgraph API Layer
+        API[API Gateway / REST API]
+    end
+
+    subgraph Auth Service
+        Auth[AuthService]
+        Redis[Redis (Rate Limits, Refresh Tokens)]
+        JWT[JWT Engine (Encode/Decode)]
+    end
+
+    subgraph Database
+        UserDB[(User & Tenant DB)]
+    end
+
+    User -->|Login Request (username/password)| API
+    API -->|Forward to AuthService| Auth
+    Auth -->|Check rate limit & lockout| Redis
+    Auth -->|Lookup User in DB| UserDB
+    Auth -->|Validate credentials| UserDB
+    Auth -->|Generate JWT + Refresh Token| JWT
+    JWT -->|Store refresh token| Redis
+    Auth -->|Send token response| API
+    API -->|Return Access + Refresh Token| User
+```
+---
+### Communication Flow Diagram
+```mermaid
+flowchart TD
+    subgraph User Actions
+        A1[Login with credentials]
+        A2[Authenticated API Call]
+        A3[Refresh Token Request]
+        A4[Revoke Token]
+    end
+
+    subgraph Components
+        API[API Layer]
+        AUTH[Auth Service]
+        JWT[JWT Verification]
+        REDIS[Redis - Token Store]
+        DB[(User DB)]
+        KAFKA[Kafka Event Bus]
+    end
+
+    A1 --> API
+    API --> AUTH
+    AUTH --> DB
+    AUTH --> REDIS
+    AUTH --> JWT
+    AUTH --> KAFKA
+    AUTH --> API
+    API --> A1
+
+    A2 --> API
+    API --> AUTH
+    AUTH --> JWT
+    AUTH --> REDIS
+    AUTH --> API
+    API --> A2
+
+    A3 --> API
+    API --> AUTH
+    AUTH --> REDIS
+    AUTH --> JWT
+    AUTH --> API
+    API --> A3
+
+    A4 --> API
+    API --> AUTH
+    AUTH --> REDIS
+    AUTH --> KAFKA
+    AUTH --> API
+    API --> A4
+```
+---
 
 ## Interface Definitions
 
@@ -199,7 +281,7 @@ POST /api/v1/auth/refresh
 Data Flow Diagram
 Illustrates the flow for a user login.
 
-Code snippet
+
 
 sequenceDiagram
     participant User
