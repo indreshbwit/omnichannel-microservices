@@ -87,7 +87,6 @@ flowchart LR
     AccessControl -->|Query Roles/Permissions| UserService
     AccessControl -->|Response (Allow/Deny)| API
     API -->|Response to Client| Client
-
 ``` 
 ## Decorator Example (Python)
 
